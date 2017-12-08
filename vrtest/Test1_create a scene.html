@@ -1,17 +1,21 @@
-
 <!--
+https://github.com/Thinkia/ThreeJs
+
+用科技让简单的视界更丰富;
+
+记事本 + 浏览器 => 3d demo
+
 1.Creating a  scene:  创建场景
 
 2.Rendering the scene: 渲染场景
 
-3.Animating  the  cube  ：  让场景动起来
+3.Animating  the  cube:让场景的物体动起来
  
 4.The result   :   结果展示
 
-Camera 属性介绍
-
-fov 讲解测试 
-camera position 讲解测试
+ camera, scene, renderer;
+ 
+ geometry, material, mesh;
 
 -->
 
@@ -19,9 +23,10 @@ camera position 讲解测试
 <html>
 	<head>
 		<meta charset=utf-8>
-		<title>My first three.js </title>
+		<title>Holle three.js </title>
 		<style>
-			body { margin: 0; }
+			body { margin: 0;
+			}
 			canvas { width: 100%; height: 100% }
 		</style>
 	</head>
@@ -30,35 +35,42 @@ camera position 讲解测试
 		<script>
 			// Our Javascript will go here.
 			var scene = new THREE.Scene();
-			var camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 0.1, 1000 );
+			
+			//scene.background = new THREE.Color( 0xffffff );
+			
+			var camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.1, 1000 );
 			
 			/* fov ,aspect,near,far 视角,方位,近焦,远焦   透视的投影相机*/
 			
-			var renderer = new THREE.WebGLRenderer();	/*跨域渲染*/
+			var renderer = new THREE.WebGLRenderer();	/*跨域渲染*/			
 			
-			renderer.setSize( window.innerWidth, window.innerHeight );
+			renderer.setSize( window.innerWidth, window.innerHeight );			
 			
-			document.body.appendChild( renderer.domElement );
+			document.body.appendChild( renderer.domElement );			
 			
-			var geometry = new THREE.BoxGeometry( 1, 1, 1 );/*空间形状*/
-			var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );/*网格基本材质*/
-			var cube = new THREE.Mesh( geometry, material ); 
+			var geometry = new THREE.BoxGeometry(1,1,1);/*空间形状*/
+			
+			var material = new THREE.MeshBasicMaterial({wireframe:true} );/*材质*/
+			
+			var cube = new THREE.Mesh( geometry, material );  /*cube*/ 
+			
 			scene.add( cube );
 			
 			camera.position.z = 3;
 			
-			function animate() {  /*动画 */
+			
+			function animate() {  /*旋转动画 */
+			
 			requestAnimationFrame( animate );
 			
-			cube.rotation.x += 0.00;
-			cube.rotation.y += 0.01;
-			cube.rotation.z += 0.00;    /*绕轴旋转   +-  逆顺*/
+			cube.rotation.y += -0.01;/*绕轴旋转   +-  逆顺*/
 										
 			renderer.render( scene, camera );
-			}
-			animate();
 			
-		
+			}
+			
+			animate();
+
 		</script>
 	</body>
 </html>
