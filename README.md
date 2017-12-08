@@ -5,7 +5,7 @@
 
 
 基础资源：
-1.three.js：    threejs.org;
+1.three.js：    threejs.org;<br>
 2.gihub:        https://github.com/mrdoob/three.js/tree/master
 3.mrdoob:       http://mrdoob.com/ 
 4.stemkoski:    http://stemkoski.github.io/Three.js/
