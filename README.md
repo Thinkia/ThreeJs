@@ -2,13 +2,13 @@
 <br><br><br>基础资源：
 <br>官方资料
 <br>1.threejs官网： https://threejs.org/
-<br><br>官方github
-<br>2.gihub:        https://github.com/mrdoob/three.js/tree/master
+<br>2.gihub:       https://github.com/mrdoob/three.js/tree/master
+<br>3.cdn :        http://cdnjs.cloudflare.com/ajax/libs/three.js/84/three.min.js
 <br><br><br>前辈们的个人网站和学习资料
-<br>3.mrdoob:            http://mrdoob.com/ 
-<br>4.supereggbert       http://www.paulbrunt.co.uk/
-<br>5.alteredq           http://alteredqualia.com/
-<br>6.Emil Persson:      http://www.humus.name/
+<br>1.mrdoob:            http://mrdoob.com/ 
+<br>2.supereggbert       http://www.paulbrunt.co.uk/
+<br>3.alteredq           http://alteredqualia.com/
+<br>4.Emil Persson:      http://www.humus.name/
       
 
 
