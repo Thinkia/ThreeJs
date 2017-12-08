@@ -1,6 +1,6 @@
 个人ThreeJs的学习视频均在哔哩哔哩：https://space.bilibili.com/251387300（标注有three.js的视频）
-<br>初衷:学于网络,归于网络
-<br><br>基础资源：
+<br><br>初衷:学于网络,归于网络
+<br>基础资源：
 <br>官方资料
 <br>1.threejs官网： https://threejs.org/
 <br>2.gihub:       https://github.com/mrdoob/three.js/tree/master
@@ -40,7 +40,7 @@
 <br>
 <br>
 <br>
-<br>
+<br>中二文艺的低级小程序员的世界观：
 <br>
 程序员如何改变世界？在目前我所认知的世界上：
 <br><br>初级程序员:
