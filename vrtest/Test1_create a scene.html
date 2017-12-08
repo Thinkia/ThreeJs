@@ -8,6 +8,11 @@
  
 4.The result   :   结果展示
 
+Camera 属性介绍
+
+fov 讲解测试 
+camera position 讲解测试
+
 -->
 
 <!DOCTYPE html>
@@ -27,7 +32,7 @@
 			var scene = new THREE.Scene();
 			var camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 0.1, 1000 );
 			
-			/* fov ,aspect,near,far 镜头,角度,近焦,远焦   透视的投影相机*/
+			/* fov ,aspect,near,far 视角,方位,近焦,远焦   透视的投影相机*/
 			
 			var renderer = new THREE.WebGLRenderer();	/*跨域渲染*/
 			
@@ -42,7 +47,7 @@
 			
 			camera.position.z = 3;
 			
-			function animate() {  /*推动 */
+			function animate() {  /*动画 */
 			requestAnimationFrame( animate );
 			
 			cube.rotation.x += 0.00;
