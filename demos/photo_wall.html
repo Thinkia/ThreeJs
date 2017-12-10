@@ -1,0 +1,280 @@
+<!--
+参考demo  https://github.com/mrdoob/three.js/blob/master/examples/css3d_periodictable.html
+
+图片来自 哔哩哔哩 包子鲨
+
+-->
+
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>demos -  photo wall</title>		
+		<link rel="stylesheet" href="./css/photo_wall.css">
+	</head>
+	<body>	
+		<div id="container"></div>		
+		<div id="info">photo wall（仿官方demo_periodic table）</div>
+		<div id="menu">
+			<button id="table">Table</button>
+			<button id="sphere">SPHERE</button>
+			<button id="helix">HELIX</button>
+			<button id="grid">GRID</button>
+		</div>
+		<script src="../main/three.js"></script>
+		<script src="js/libs/tween.min.js"></script>
+		<script src="js/controls/TrackballControls.js"></script>
+		<script src="js/renderers/CSS3DRenderer.js"></script>
+		<script >
+		
+		var personArray = new Array;
+    	var CurPersonNum = 0;
+    
+    	
+			/* 生成虚拟数据*/
+	        for(var i=0;i<81;i++){
+				personArray.push({
+		            image: "./test.jpg"
+		        });
+	        }
+			
+			/*生成9*9照片墙*/
+
+	        var table = new Array;
+		    for (var i = 0; i < personArray.length; i++) {
+		        table[i] = new Object();
+		        if (i < personArray.length) {
+		            table[i] = personArray[i];
+		            table[i].src = personArray[i].thumb_image;
+		        } 
+		        table[i].p_x = i % 9 + 1;
+		        table[i].p_y = Math.floor(i / 9) + 1;
+		    }
+			var camera, scene, renderer;
+			
+			var controls;
+
+			var objects = [];
+			
+			var targets = { table: [], sphere: [], helix: [], grid: [] };
+
+			init();
+			animate();
+
+			function init() {
+
+				camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 10000 );
+				camera.position.z = 3000;
+				scene = new THREE.Scene();	
+				var test_x, test_y;
+				/*给每个墙赋值*/
+				for(var i=0;i<81;i++)
+				{
+					 if(i<27)
+					 {
+						test_x=Math.floor((i+9)%9/3);
+						test_y=(i+9)%9%3+Math.floor(i/9)*3;
+					 }	 
+					 else if(i>53)
+					 {
+						test_x=Math.floor((i-54+9)%9/3)+6;
+						test_y=(i-54+9)%9%3+Math.floor((i-54)/9)*3;
+					 }
+					 else
+					 {
+						test_x=Math.floor((i-27+9)%9/3)+3;
+						test_y=(i-27+9)%9%3+Math.floor((i-27)/9)*3;
+					 }
+				 table[i].image="./textures/photowall/test_"+test_x+"_"+test_y+".jpg";
+				}
+
+			/* table   	*/
+				for ( var i = 0; i < table.length; i ++ ) {
+
+					var element = document.createElement( 'div' );
+					element.className = 'element';
+					element.style.backgroundColor = 'rgba(0,127,127,' + ( Math.random() * 0.5 + 0.25 ) + ')';
+
+					var img = document.createElement('img');
+					img.src = table[ i ].image;
+					element.appendChild( img );
+
+
+					var object = new THREE.CSS3DObject( element );
+					object.position.x = Math.random() * 4000 - 2000;
+					object.position.y = Math.random() * 4000 - 2000;
+					object.position.z = Math.random() * 4000 - 2000;
+					scene.add( object );
+
+					objects.push( object );
+
+					/* 表格需要坐标进行排序的*/
+					var object = new THREE.Object3D();
+					
+					object.position.x = ( table[ i ].p_x * 160 ) - 800;
+					
+					object.position.y = - ( table[ i ].p_y * 160 ) + 990;
+
+					targets.table.push( object );
+
+				}
+
+				/* sphere   */
+
+				var vector = new THREE.Vector3();
+				var spherical = new THREE.Spherical();
+
+				for ( var i = 0, l = objects.length; i < l; i ++ ) {
+					var phi = Math.acos( -1 + ( 2 * i ) / l );
+					var theta = Math.sqrt( l * Math.PI ) * phi;
+					var object = new THREE.Object3D();
+					spherical.set( 800, phi, theta );
+					object.position.setFromSpherical( spherical );
+					vector.copy( object.position ).multiplyScalar( 2 );
+					object.lookAt( vector );
+					targets.sphere.push( object );
+				}
+				/* helix */ 
+				var vector = new THREE.Vector3();
+				var cylindrical = new THREE.Cylindrical();
+				for ( var i = 0, l = objects.length; i < l; i ++ ) {
+					var theta = i * 0.2 + 12*Math.PI;
+					var y = - ( i * 15 ) + 650;
+					var object = new THREE.Object3D();
+					/*参数一 圈的大小 参数二 左右间距 参数三 上下间距*/
+					cylindrical.set( 900, theta, y );
+
+					object.position.setFromCylindrical( cylindrical );
+
+					vector.x = object.position.x * 2;
+					vector.y = object.position.y;
+					vector.z = object.position.z * 2;
+
+					object.lookAt( vector );
+
+					targets.helix.push( object );
+
+				}
+
+				/* grid   */
+
+				for ( var i = 0; i < objects.length; i ++ ) {
+
+					var object = new THREE.Object3D();
+
+					object.position.x = ( ( i % 5 ) * 400 ) - 800; /* 400 图片的左右间距  800 x轴中心店*/
+					object.position.y = ( - ( Math.floor( i / 4 ) % 4 ) * 300 ) + 500;  // 500 y轴中心店
+					object.position.z = ( Math.floor( i / 16 ) ) * 200 - 800;// 300调整 片间距 800z轴中心店
+
+					targets.grid.push( object );
+
+				}
+
+				//渲染
+				renderer = new THREE.CSS3DRenderer();
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				renderer.domElement.style.position = 'absolute';
+				document.getElementById( 'container' ).appendChild( renderer.domElement );
+
+				// 鼠标控制
+				controls = new THREE.TrackballControls( camera, renderer.domElement );
+				controls.rotateSpeed = 2; /*反应速度*/
+				controls.minDistance = 500;
+				controls.maxDistance = 6000;
+				controls.addEventListener( 'change', render );
+
+				/*鼠标按钮操作*/
+				var button = document.getElementById( 'table' );
+				button.addEventListener( 'click', function ( event ) {
+					transform( targets.table, 1000 );
+				}, false );
+
+				var button = document.getElementById( 'sphere' );
+				button.addEventListener( 'click', function ( event ) {
+					transform( targets.sphere, 2000 );
+				}, false );
+
+				var button = document.getElementById( 'helix' );
+				button.addEventListener( 'click', function ( event ) {
+					transform( targets.helix, 2000 );
+				}, false );
+
+				var button = document.getElementById( 'grid' );
+				button.addEventListener( 'click', function ( event ) {
+					transform( targets.grid, 2000 );
+				}, false );
+
+				transform( targets.table, 2000 );
+
+		
+
+				window.addEventListener( 'resize', onWindowResize, false );
+
+			}
+			
+		
+
+			function transform( targets, duration ) {
+
+				TWEEN.removeAll();
+
+				for ( var i = 0; i < objects.length; i ++ ) {
+
+					var object = objects[ i ];
+					var target = targets[ i ];
+
+					new TWEEN.Tween( object.position )
+						.to( { x: target.position.x, y: target.position.y, z: target.position.z }, Math.random() * duration + duration )
+						.easing( TWEEN.Easing.Exponential.InOut )
+						.start();
+
+					new TWEEN.Tween( object.rotation )
+						.to( { x: target.rotation.x, y: target.rotation.y, z: target.rotation.z }, Math.random() * duration + duration )
+						.easing( TWEEN.Easing.Exponential.InOut )
+						.start();
+
+				}
+
+				new TWEEN.Tween( this )
+					.to( {}, duration * 2 )
+					.onUpdate( render )
+					.start();
+
+			}
+
+			function onWindowResize() {
+
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+
+				renderer.setSize( window.innerWidth, window.innerHeight );
+
+				render();
+
+			}
+
+		
+			function animate() {
+
+		
+
+				requestAnimationFrame( animate );
+
+				TWEEN.update();
+
+				controls.update();
+
+
+			}
+
+			function render() {
+
+				renderer.render( scene, camera );
+
+			}
+
+		
+		</script>
+	</body>
+</html>
+
