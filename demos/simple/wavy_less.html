@@ -1,17 +1,22 @@
+<!--
+three.js   r46
+
+base: http://mrdoob.com/#/137/voxels_liquid
+
+-->
 <!doctype html>
 <html lang="en">
 	<head>
 		<title>Voxels liquid</title>
-		<meta charset="utf-8">
+		<meta charset="gb2312">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 		<style>
 			body {
-				font-family: Monospace;
-				background-color: #f0f0f0;
+				font-family: "微软雅黑";
+				background-color: #000;		
 				margin: 0px;
 				overflow: hidden;
 			}
-
 			#info {
 				position: absolute;
 				top: 0px; width: 100%;
@@ -21,24 +26,21 @@
 		</style>
 	</head>
 	<body>
-
-
-		<div id="info"><a href="test.html">more wavy</a></div>
-
+		<div id="info"><a href="wavy_more.html">more wavy</a></div>
 		<script src="js/Detector.js"></script>
-		<script src="js/Stats.js"></script>
-		<script src="js/Three.js"></script>
+		<script src="js/Stats.js"></script> <!--r8 -->
+		<script src="js/Three.js"></script><!--r46  -->
 
 		<script>
-
-			var size = 10, res = 32, sizeres = size * res, halfsizeres = sizeres / 2;
+		
+			 /*res: 矩阵维度   size:方格大小,间隔 */
+			var size = 8, res = 20, sizeres = size * res, halfsizeres = sizeres / 2; 
 			var buffer1 = [], buffer2 = [], temp;
 			var grid = [], plane;
 			var scene, camera, light, renderer;
 			var geometry, material;
 			var mouse, projector, ray, intersects = [];
-			var stats;
-
+			var stats;		
 			if ( Detector.webgl ) {
 
 				init();
@@ -58,58 +60,47 @@
 				stats = new Stats();
 				stats.domElement.style.position = 'absolute';
 				stats.domElement.style.top = '0px';
-				// container.appendChild( stats.domElement );
-
+				// 2 buffer
 				for ( var i = 0, l = res * res; i < l; i ++ ) {
-
 					buffer1[ i ] = 0;
 					buffer2[ i ] = 0;
-
 				}
 
 				scene = new THREE.Scene();
 
-				camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 1, 2000 );
+				camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 1, 2000 );/*相机属性*/
 				camera.position.x = 100 + sizeres;
 				camera.position.y = 200;
 				camera.position.z = 100 + sizeres;
 				camera.lookAt( new THREE.Vector3( halfsizeres, - 50, halfsizeres ) );
 				scene.add( camera );
 
-				scene.add( new THREE.AmbientLight( 0x808080 ) );
+				scene.add( new THREE.AmbientLight( 0x808080 ) );/*环境光的颜色*/
 
 				light = new THREE.SpotLight( 0xffffff, 1.25 );
-				light.position.set( - 500, 900, 600 );
+				light.position.set( - 500, 900, 600 );  /*光源位置*/
 				light.target.position.set( halfsizeres, 0, halfsizeres );
 				light.castShadow = true;
 				scene.add( light );
-
-				geometry = new THREE.CubeGeometry( size, size, size );
-				geometry.applyMatrix( new THREE.Matrix4().setTranslation( 0, size / 2, 0 ) );
-				material = new THREE.MeshLambertMaterial( { color: 0xd0d0d0 } );
-
+				geometry = new THREE.CubeGeometry( size, size, size );				
+				geometry.applyMatrix( new THREE.Matrix4().setTranslation( 0, size / 2, 0 ) );/*r46支持,目前r89不支持*/
 				for ( var i = 0, l = res * res; i < l; i ++ ) {
-
+					material = new THREE.MeshLambertMaterial( { color: Math.random()*16777214 } );/*材质随机颜色 rgb值*/
 					cube = new THREE.Mesh( geometry, material );
 					cube.position.x = size + ( ( i % res ) * 10 );
-					cube.position.z = size + ( Math.floor( i / res ) * 10 );
-					cube.castShadow = true;
+					cube.position.z = size + ( Math.floor( i / res ) * 10 );  /*深度*/
+					cube.castShadow = true;/*阴影*/
 					cube.receiveShadow = true;
 					scene.add( cube );
-
 					grid.push( cube );
-
 				}
-
 				geometry = new THREE.PlaneGeometry( sizeres, sizeres );
-
 				plane = new THREE.Mesh( geometry, material );
 				plane.position.x = halfsizeres;
 				plane.position.z = halfsizeres;
 				plane.rotation.x = - 90 * Math.PI / 180;
 				plane.visible = false;
 				scene.add( plane );
-
 				renderer = new THREE.WebGLRenderer();
 
 				renderer.shadowMapEnabled = true;
@@ -175,21 +166,21 @@
 
 				var bottom = res * res - res;
 
-				// update buffers
+				/* 更新 buffers*/
 				for ( var i = 0, l = res * res; i < l; i ++ ) {
 
 					var x1, x2, y1, y2;
 
 					if ( i % res == 0 ) {
 
-						// left edge
+						// left 
 
 						x1 = 0;
 						x2 = buffer1[ i + 1 ];
 
 					} else if ( i % res == res - 1 ) {
 
-						// right edge
+						// right 
 
 						x1 = buffer1[ i - 1 ];
 						x2 = 0;
@@ -203,14 +194,14 @@
 
 					if ( i < res ) {
 
-						// top edge
+						// top 
 
 						y1 = 0;
 						y2 = buffer1[ i + res ];
 
 					} else if ( i > l - res - 1 ) {
 
-						// bottom edge
+						// bottom 
 
 						y1 = buffer1[ i - res ];
 						y2 = 0;
@@ -231,7 +222,7 @@
 				buffer1 = buffer2;
 				buffer2 = temp;
 
-				// update grid
+				// 更新 grid
 
 				for ( var i = 0, l = res * res; i < l; i ++ ) {
 
