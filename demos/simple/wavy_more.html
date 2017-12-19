@@ -6,10 +6,11 @@
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 		<style>
 			body {
-				font-family: Monospace;
-				background-color: #f0f0f0;
+				font-family: "微软雅黑";
+				background-color: #000;				
 				margin: 0px;
 				overflow: hidden;
+				
 			}
 
 			#info {
@@ -17,14 +18,13 @@
 				top: 0px; width: 100%;
 				padding: 5px;
 				text-align:center;
+			
 			}
 		</style>
 	</head>
 	<body>
 
-
-		<div id="info"><a href="test1.html">less wavy</a></div>
-
+		<div id="info"><a href="wavy_less.html">less wavy</a></div>
 		<script src="js/Detector.js"></script>
 		<script src="js/Stats.js"></script>
 		<script src="js/Three.js"></script>
@@ -86,10 +86,8 @@
 
 				geometry = new THREE.CubeGeometry( size, size, size );
 				geometry.applyMatrix( new THREE.Matrix4().setTranslation( 0, - size / 2, 0 ) );
-				material = new THREE.MeshLambertMaterial( { color: 0xd0d0d0 } );
-
 				for ( var i = 0, l = res * res; i < l; i ++ ) {
-
+					material = new THREE.MeshLambertMaterial( { color: Math.random()*16777214 } );/*材质随机颜色 rgb值*/
 					cube = new THREE.Mesh( geometry, material );
 					cube.position.x = size + ( ( i % res ) * 10 );
 					cube.position.z = size + ( Math.floor( i / res ) * 10 );
@@ -97,9 +95,7 @@
 					cube.castShadow = true;
 					cube.receiveShadow = true;
 					scene.add( cube );
-
 					grid.push( cube );
-
 				}
 
 				geometry = new THREE.PlaneGeometry( sizeres, sizeres );
