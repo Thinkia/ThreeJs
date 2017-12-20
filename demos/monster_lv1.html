@@ -44,39 +44,35 @@ src:  http://www.3drt.com/downloads.htm
 		<script src="js/loaders/ColladaLoader.js"></script>
 		<script src="js/controls/OrbitControls.js"></script>		
                 <script src="js/Detector.js"></script>
-		<script src="js/libs/stats.min.js"></script>
-               
+		<script src="js/libs/stats.min.js"></script>         
                 <script  type="text/javascript">
 			if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 			var container, stats, clock, mixer, controls;
 			var camera, scene, renderer, objects;
 			init();
-			animate();
-                        
+			animate();                        
 			function init() {
-
 				container = document.getElementById( 'container' );
 
 				camera = new THREE.PerspectiveCamera( 5, window.innerWidth / window.innerHeight, 1, 2000 );
 				
-                camera.position.set( 0, 30,0);
+        		        camera.position.set( 0, 30,0);
                             
 				clock = new THREE.Clock();
                                 
 				scene = new THREE.Scene();
 				
-                scene.background = new THREE.Color( 0x666666 );
+            		        scene.background = new THREE.Color( 0x666666 );
                 
 			
 				// lights
 				var ambientLight = new THREE.AmbientLight( 0xffffff );				
                                 scene.add( ambientLight );
                                 
-                                   // monster_play 
-                                   monster_play();    
+                                // monster_play 
+                                monster_play();    
                                                            
-                            var pointLight = new THREE.PointLight( 0xffffff, 5, 30 );
-				
+                           	var pointLight = new THREE.PointLight( 0xffffff, 5, 30 );				
 				pointLight.position.set( 5, 0, 0 );
 				pointLight.castShadow = true;
 				scene.add( pointLight );
@@ -97,7 +93,6 @@ src:  http://www.3drt.com/downloads.htm
 				controls = new THREE.OrbitControls( camera, renderer.domElement );
 				controls.target.set( 0, -2, 0 );
 				controls.update();
-
 				
                                 // stats
 
@@ -126,13 +121,13 @@ src:  http://www.3drt.com/downloads.htm
                                 var num1=monster_play.toString().indexOf("?");
                                 var num2=monster_play.length;
                                 var key;
-                                monster_play=monster_play.substring(num1+1,num2);
-                                
+                                monster_play=monster_play.substring(num1+1,num2);                               
                                 if(monster_play == location.href.toString())
                                      key="monster_walk.json";
                                 else
                                      key=monster_play;   
-                                var url="models/blender/monster/"+key;    
+                                var url="models/blender/monster/"+key;    //json   url
+				
                             	mixer = new THREE.AnimationMixer( scene );				
                                 var loader = new THREE.JSONLoader();                                
 				loader.load( url, function ( geometry, materials ) {
@@ -153,25 +148,17 @@ src:  http://www.3drt.com/downloads.htm
 
                         }
                 
-
 			//
 
 			function animate() {
-
 				requestAnimationFrame( animate );
-
 				render();
 				stats.update();
-
 			}
 
 			function render() {
 
 				var timer = Date.now() * 0.0005;
-
-				//camera.position.x = Math.cos( timer ) * 10;    //relative
-			
-                           // camera.position.z = Math.sin( timer ) * 10;
 
 				mixer.update( clock.getDelta() );
 
