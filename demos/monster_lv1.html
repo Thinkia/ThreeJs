@@ -32,14 +32,14 @@ src:  http://www.3drt.com/downloads.htm
                         
 		</style>
 	</head>
-	<body>
-            
-            <div id="info">
+	<body>           
+                <div id="info">
                 <a  href="?monster_walk.json" >walk</a>--
                 <a  href="?monster_run.json"  >run</a>--
                 <a  href="?monster_attack.json" ><span>attack</span></a>--
                 <a  href="?monster_death.json" >death</a></div>
-		<div id="container"></div>		
+		<div id="container"></div>	
+		
 		<script src="../main/three.js"></script>
 		<script src="js/loaders/ColladaLoader.js"></script>
 		<script src="js/controls/OrbitControls.js"></script>		
@@ -68,15 +68,15 @@ src:  http://www.3drt.com/downloads.htm
 				// lights
 				var ambientLight = new THREE.AmbientLight( 0xffffff );				
                                 scene.add( ambientLight );
-                                
-                                // monster_play 
-                                monster_play();    
-                                                           
+                                                                                      
                            	var pointLight = new THREE.PointLight( 0xffffff, 5, 30 );				
 				pointLight.position.set( 5, 0, 0 );
 				pointLight.castShadow = true;
 				scene.add( pointLight );
                                 
+			       // monster_play 
+                                monster_play(); 
+				
 				// renderer
 
 				renderer = new THREE.WebGLRenderer();
