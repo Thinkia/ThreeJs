@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<!--
+json    skeletal
+
+base: https://discourse.threejs.org/t/creating-a-dynamic-run-walk-animation/442/21
+
+-->
+<html>
+	<head>
+		<title>skeletal animation</title>
+		<style>
+			body { 
+                        
+				padding:0;
+				margin:0;
+				font-weight: bold;
+				overflow:hidden; }
+                        #info{
+                            position:absolute;
+                            top:0px;
+                            width:100%;
+                            padding:5px;
+                            text-align:center;
+                            color: #ffffff;
+                        }
+		</style>
+	</head>
+	<body>
+             <div id="info">
+                 onmousedown        and       onmouseup  
+             </div>
+	
+		<script src="../main/three_1.js"></script>
+                <script src="js/loaders/ColladaLoader.js"></script>
+		<script src="js/controls/OrbitControls.js"></script>		
+                
+                <script >
+                
+                var scene = new THREE.Scene();
+                var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+
+                var renderer = new THREE.WebGLRenderer();
+                renderer.setSize( window.innerWidth, window.innerHeight );
+                document.body.appendChild( renderer.domElement );
+
+                camera.position.set(4, 2, 0);
+
+                var clock = new THREE.Clock();
+
+                var loader = new THREE.JSONLoader;
+                var mixer;
+                var throwAction;
+                var set = false;
+                var idleAction
+                loader.load("./models/blender/skeletal/test/player.json", function(geometry) {
+                    var material = new THREE.MeshBasicMaterial({skinning: true});
+                    var skinnedMesh = new THREE.SkinnedMesh(geometry, material);
+                    scene.add(skinnedMesh);
+
+                    mixer = new THREE.AnimationMixer(skinnedMesh);
+                    idleAction = mixer.clipAction(geometry.animations[0]);
+                    throwAction = mixer.clipAction(geometry.animations[1]);
+                    //throwAction.setLoop(THREE.LoopOnce);                  
+                    idleAction.play();
+                    set = true;
+                });
+                   //helper
+                    var gridHelper = new THREE.GridHelper( 10, 20 );
+                    scene.add( gridHelper );
+
+                  //controls
+
+                    controls = new THREE.OrbitControls( camera, renderer.domElement );
+		    controls.target.set( 0, 0, 0 );
+	            controls.update();
+				
+
+                document.onmousedown = function() { 
+                    throwAction.reset();
+                    throwAction.play();
+                    idleAction.reset();
+                    idleAction.stop();                                 
+                  }
+                document.onmouseup= function()
+                {
+                    throwAction.stop(); 
+                    idleAction.play();
+                }
+
+                function render() {
+                    if(set) {
+                        mixer.update(clock.getDelta());
+                    }
+
+                    renderer.render(scene, camera);
+                    requestAnimationFrame(render);
+                };
+
+                render();
+
+                </script>
+	</body>
+</html>
