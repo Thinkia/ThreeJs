@@ -4,7 +4,9 @@ blender:    blender.org
 
 json:       io-threejs       2         blender>>addons
 
-in  Server
+server
+
+src:  http://www.3drt.com/downloads.htm
 
 -->
 <html lang="en">
@@ -20,85 +22,89 @@ in  Server
 				font-weight: bold;
 				overflow:hidden;
 			}
-                        
                         #info{
                             position:absolute;
                             top:0px;
                             width:100%;
                             padding:5px;
                             text-align:center;
-                            color:#fff;                       
                         }
+                         #info2{
+                            position:absolute;
+                            top:20px;
+                            width:100%;
+                            padding:5px;
+                            text-align:center;
+                        }
+                        
 		</style>
 	</head>
 	<body>
+            <div id="info">
+                <a  href="https://github.com/Thinkia/ThreeJs/blob/master/demos/monster_lv1.html" target="_blank"><span style="color:#fff">Code</span></a>--
+                <a  href="#"  target="_blank" ><span style="color:#fff">Video</span></a>
+            </div>
+            <div id="info2" >
+                <a  href="?monster_walk.json" >walk</a>--
+                <a  href="?monster_run.json"  >run</a>--
+                <a  href="?monster_attack.json" ><span>attack</span></a>--
+                <a  href="?monster_death.json" >death</a></div>
 		<div id="container"></div>		
 		<script src="../main/three.js"></script>
-                <div id="info">
-                     <a  href="https://github.com/Thinkia/ThreeJs/blob/master/demos/monster.html" target="_blank"><span style="color:#fff">Code</span></a>--
-                     <a  href="https://www.bilibili.com/video/av17328184/"  target="_blank" ><span style="color:#fff">Video</span></a>
-                 </div>
-		<script src="js/Detector.js"></script>
-		<script src="js/libs/stats.min.js"></script>
-		<script>
+		<script src="js/loaders/ColladaLoader.js"></script>
+		<script src="js/controls/OrbitControls.js"></script>		
+                <script src="js/Detector.js"></script>
+		<script src="js/libs/stats.min.js"></script>         
+                <script  type="text/javascript">
 			if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
-			var container, stats, clock, mixer;
+			var container, stats, clock, mixer, controls;
 			var camera, scene, renderer, objects;
 			init();
-			animate();
-
+			animate();                        
 			function init() {
-
 				container = document.getElementById( 'container' );
 
-				camera = new THREE.PerspectiveCamera( 30, window.innerWidth / window.innerHeight, 1, 2000 );
-				camera.position.set( 2, 4, 2 );
-
+				camera = new THREE.PerspectiveCamera( 5, window.innerWidth / window.innerHeight, 1, 2000 );
+				
+        		        camera.position.set( 0, 30,0);
+                            
 				clock = new THREE.Clock();
-
+                                
 				scene = new THREE.Scene();
-				scene.fog = new THREE.FogExp2( 0x000000, 0.035 );
-
-				mixer = new THREE.AnimationMixer( scene );
-				var loader = new THREE.JSONLoader();
-				loader.load( 'models/blender/monster/monster.json', function ( geometry, materials ) {
-					var material = materials[ 0 ];
-					material.morphTargets = true;
-					material.color.setHex( 0xffaaaa );
-					var mesh = new THREE.Mesh( geometry, materials );
-					mesh.position.set( 1, 0, 1 );
-
-					var s = THREE.Math.randFloat( 0.00075, 0.001 );
-					mesh.scale.set( s, s, s );
-					mesh.rotation.y = THREE.Math.randFloat( -0.25, 0.25 );
-					mesh.matrixAutoUpdate = false;
-					mesh.updateMatrix();
-
-					scene.add( mesh );
-
-					mixer.clipAction( geometry.animations[ 0 ], mesh )
-							.setDuration( 1 )   // one second
-							.startAt( -1 )	//  (already running)
-							.play();	// let's go
-				} );
-
+				
+            		        scene.background = new THREE.Color( 0x666666 );
+                
+			
 				// lights
-
-				var ambientLight = new THREE.AmbientLight( 0xcccccc );
-				scene.add( ambientLight );
-
-				var pointLight = new THREE.PointLight( 0xff4400, 5, 30 );
+				var ambientLight = new THREE.AmbientLight( 0xffffff );				
+                                scene.add( ambientLight );
+                                
+                                // monster_play 
+                                monster_play();    
+                                                           
+                           	var pointLight = new THREE.PointLight( 0xffffff, 5, 30 );				
 				pointLight.position.set( 5, 0, 0 );
+				pointLight.castShadow = true;
 				scene.add( pointLight );
-
+                                
 				// renderer
 
 				renderer = new THREE.WebGLRenderer();
 				renderer.setPixelRatio( window.devicePixelRatio );
 				renderer.setSize( window.innerWidth, window.innerHeight );
 				container.appendChild( renderer.domElement );
+                        
+                                //helper
+                                var gridHelper = new THREE.GridHelper( 10, 20 );
+				scene.add( gridHelper );
 
-				// stats
+                                //controls
+
+				controls = new THREE.OrbitControls( camera, renderer.domElement );
+				controls.target.set( 0, -2, 0 );
+				controls.update();
+				
+                                // stats
 
 				stats = new Stats();
 				container.appendChild( stats.dom );
@@ -110,7 +116,6 @@ in  Server
 			}
 
 			//
-
 			function onWindowResize( event ) {
 
 				renderer.setSize( window.innerWidth, window.innerHeight );
@@ -119,25 +124,51 @@ in  Server
 				camera.updateProjectionMatrix();
 
 			}
+                       //  JSONLoader
+                        function monster_play()    
+                        {
+                                var monster_play = location.href.toString();                                
+                                var num1=monster_play.toString().indexOf("?");
+                                var num2=monster_play.length;
+                                var key;
+                                monster_play=monster_play.substring(num1+1,num2);                               
+                                if(monster_play == location.href.toString())
+                                     key="monster_walk.json";
+                                else
+                                     key=monster_play;   
+                                var url="models/blender/monster/"+key;    //json   url
+				
+                            	mixer = new THREE.AnimationMixer( scene );				
+                                var loader = new THREE.JSONLoader();                                
+				loader.load( url, function ( geometry, materials ) {
+				var material = materials[ 0 ];
+				material.morphTargets = true;
+				material.color.setHex( 0xff0000 );
+				var mesh = new THREE.Mesh( geometry, materials );					
+				mesh.position.set( 0, 0, 0 );
+				mesh.scale.set(-0.02, -0.02, 0.02 );				
+				mesh.matrixAutoUpdate = false;
+				mesh.updateMatrix();                                        
+				scene.add( mesh );                                  
+                        	mixer.clipAction( geometry.animations[ 0 ], mesh )
+							.setDuration(5)   // time
+							.startAt( -1 )	// already running
+							.play();	// let's go
+				} );
 
+                        }
+                
 			//
 
 			function animate() {
-
 				requestAnimationFrame( animate );
-
 				render();
 				stats.update();
-
 			}
 
 			function render() {
 
 				var timer = Date.now() * 0.0005;
-
-				camera.position.x = Math.cos( timer ) * 10;
-				//camera.position.y = 4;
-				camera.position.z = Math.sin( timer ) * 10;
 
 				mixer.update( clock.getDelta() );
 
