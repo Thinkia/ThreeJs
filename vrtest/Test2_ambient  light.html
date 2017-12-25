@@ -9,13 +9,25 @@
 				margin: 0px;
 				background-color: #000000;
 				overflow: hidden;
+                                
 			}
+                        #info{
+                            position:absolute;
+                            top:0px;
+                            width:100%;
+                            padding:5px;
+                            text-align:center;
+                            color:#fff;                       
+                        }
 		</style>
 	</head>
 	<body>
 
 		<script src="../main/three.js"></script>
-
+                 <div id="info">
+                     <a  href="https://github.com/Thinkia/ThreeJs/blob/master/vrtest/Test2_ambient%20%20light.html" target="_blank"><span style="color:#fff">Code</span></a>--
+                     <a  href="https://www.bilibili.com/video/av17139533/"  target="_blank" ><span style="color:#fff">Video</span></a>
+                 </div>
 		<script>
 
 			var camera, scene, renderer;
@@ -26,19 +38,19 @@
 
 			function init() {
 			
-				camera =new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 0.1, 10 );	/*ÉèÖÃÏà»úÊôĞÔ*/
+				camera =new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 0.1, 10 );
 
-				camera.position.z = 3;/*Ïà»úÎ»ÖÃ*/
+				camera.position.z = 3;/*ç›¸æœºä½ç½®*/
 
 				scene = new THREE.Scene();
 
-				scene.add( new THREE.AmbientLight( 0x00ff00 ) );/*Ìí¼Ó»·¾³¹â*/
+				scene.add( new THREE.AmbientLight( 0x00ff00 ) );/*æ·»åŠ ç¯å¢ƒå…‰*/
 
 				var light = new THREE.DirectionalLight();
-				light.position.set( 0.5, 0.5, 1 ); /*¹âÔ´Î»ÖÃ*/
+				light.position.set( 0.5, 0.5, 1 ); /*å…‰æºä½ç½®*/
 				light.castShadow = true;
-				light.shadow.camera.zoom = 4; /* ÒõÓ°  Ëõ·Å*/
-				scene.add( light );/*Ìí¼Ó¹âÏß*/
+				light.shadow.camera.zoom = 4; /* é˜´å½±  ç¼©æ”¾*/
+				scene.add( light );/*æ·»åŠ å…‰çº¿*/
 
 				var geometry = new THREE.PlaneBufferGeometry( 100, 100 );
 				var material = new THREE.MeshPhongMaterial( { color: 0x000066 } );
@@ -48,7 +60,7 @@
 				background.position.set( 0, 0, - 1 );
 				scene.add( background );
 
-				var geometry = new THREE.CylinderBufferGeometry( 0.5, 0.5, 1,32 );/* Ô²Öù */
+				var geometry = new THREE.CylinderBufferGeometry( 0.5, 0.5, 1,32 );/* åœ†æŸ± */
 
 				var material = new THREE.MeshPhongMaterial( { color: 0xff0000 } );
 
