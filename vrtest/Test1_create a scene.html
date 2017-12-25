@@ -1,5 +1,6 @@
 <!--
-https://github.com/Thinkia/ThreeJs
+
+https://thinkia.github.io/Thinkio/index.html
 
 用科技让简单的视界更丰富;
 
@@ -28,10 +29,24 @@ https://github.com/Thinkia/ThreeJs
 			body { margin: 0;
 			}
 			canvas { width: 100%; height: 100% }
-		</style>
+                        #info{
+                            position:absolute;
+                            top:0px;
+                            width:100%;
+                            padding:5px;
+                            text-align:center;
+                          
+                           
+                        }
+                </style>
 	</head>
 	<body>
 		<script src="../main/three.js"></script>
+                <div id="info">
+                <a  href="https://github.com/Thinkia/ThreeJs/blob/master/vrtest/Test1_create%20a%20scene.html" target="_blank"> Code</a>--
+                <a  href="https://www.bilibili.com/video/av17072059/"  target="_blank" >Video</a>
+               </div>
+		<div id="container"></div>
 		<script>
 			// Our Javascript will go here.
 			var scene = new THREE.Scene();
@@ -57,8 +72,7 @@ https://github.com/Thinkia/ThreeJs
 			scene.add( cube );
 			
 			camera.position.z = 3;
-			
-			
+						
 			function animate() {  /*旋转动画 */
 			
 			requestAnimationFrame( animate );
