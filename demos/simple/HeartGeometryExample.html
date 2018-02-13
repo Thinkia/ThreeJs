@@ -24,7 +24,7 @@
       //left: 30%;
     }
   </style>
-  <script type="text/javascript" src="../main/three.js"></script>
+  <script type="text/javascript" src="../../main/three.js"></script>
   <script type="text/javascript" src="Common/OrbitAndPanControls.js"></script>
   <script type="text/javascript" src="Common/HeartGeometry.js"></script>
   <script type="text/javascript">
@@ -76,7 +76,7 @@
       cameraControls = new THREE.OrbitAndPanControls(camera, renderer.domElement);
       cameraControls.target.set(0, 0, 0);
 
-      texFold = new THREE.ImageUtils.loadTexture('img/fold.jpg');
+      texFold = new THREE.ImageUtils.loadTexture('../textures/heart/fold.jpg');
 
       matTexture = new THREE.MeshPhongMaterial({
         shading: THREE.FlatShading,
