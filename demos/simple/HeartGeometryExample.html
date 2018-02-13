@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
+<head>
+  <title>HeartGeometry Simple Demo</title>
+  <style>
+    body {
+      color: #000;
+      font-family: Monospace;
+      font-size: 13px;
+      text-align: center;
+      font-weight: bold;
+      background-color: #fff;
+      margin: 0px;
+      overflow: hidden;
+    }
+
+    #info {
+      color: #000;
+      position: absolute;
+      top: 10px;
+      width: 100%;
+      padding: 5px;
+      //left: 30%;
+    }
+  </style>
+  <script type="text/javascript" src="Common/Three.min.js"></script>
+  <script type="text/javascript" src="Common/OrbitAndPanControls.js"></script>
+  <script type="text/javascript" src="Common/HeartGeometry.js"></script>
+  <script type="text/javascript">
+    var camera, scene, renderer;
+    var cameraControls;
+    var clock = new THREE.Clock();
+
+    var polyhedron;
+    var matCurrent;
+
+    function fillScene() {
+      scene = new THREE.Scene();
+      scene.fog = new THREE.Fog(0x808080, 2000, 4000);
+
+      // LIGHTS
+      var ambientLight = new THREE.AmbientLight(0x222222);
+
+      var light1 = new THREE.DirectionalLight(0xffddcc, 1.0);
+      light1.position.set(200, 600, 500);
+
+      var light2 = new THREE.DirectionalLight(0xeeeeff, 0.6);
+      light2.position.set(-500, -100, -200);
+
+      var light3 = new THREE.DirectionalLight(0xeedfff, 0.6);
+      light3.position.set(100, 100, -200);
+
+      scene.add(ambientLight);
+      scene.add(light1);
+      scene.add(light2);
+      scene.add(light3);
+
+      createModel();
+    }
+
+    function init() {
+      // RENDERER
+      renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.gammaInput = true;
+      renderer.gammaOutput = true;
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setClearColor(0xAAAABB, 1.0);
+
+      // CAMERA
+      var aspectRatio = window.innerWidth / window.innerHeight;
+      camera = new THREE.PerspectiveCamera(40, aspectRatio, 1, 10000);
+      camera.position.set(400, 0, 0);
+
+      // CONTROLS
+      cameraControls = new THREE.OrbitAndPanControls(camera, renderer.domElement);
+      cameraControls.target.set(0, 0, 0);
+
+      texFold = new THREE.ImageUtils.loadTexture('img/fold.jpg');
+
+      matTexture = new THREE.MeshPhongMaterial({
+        shading: THREE.FlatShading,
+        map: texFold
+      });
+      matCurrent = matTexture;
+      matCurrent.shading = THREE.SmoothShading;
+    }
+
+    function addToDOM() {
+      var container = document.getElementById('container');
+      var canvas = container.getElementsByTagName('canvas');
+      if (canvas.length > 0) {
+        container.removeChild(canvas[0]);
+      }
+      container.appendChild(renderer.domElement);
+    }
+
+    function animate() {
+      window.requestAnimationFrame(animate);
+      render();
+    }
+
+    function render() {
+      var delta = clock.getDelta();
+      cameraControls.update(delta);
+      polyhedron.rotation.y += 1 * delta;
+      renderer.render(scene, camera);
+    }
+
+    function createModel() {
+      var geometry = new THREE.HeartGeometry({ textureStyle: "Fold" });
+      polyhedron = new THREE.Mesh(geometry, matCurrent);
+      polyhedron.scale.set(50, 100, 100);
+      scene.add(polyhedron);
+    }
+
+    window.onload = function () {
+      // Main body of the script
+      init();
+      fillScene();
+      addToDOM();
+      animate();
+    };
+  </script>
+</head>
+<body id="container">
+  <div id="info">
+    Simple example of HeartGeometry (for <a href="http://threejs.org" target="_blank">three.js</a>)<br />
+    For parameters demo <a href="HeartGeometryTest.html" target="_blank">here</a>
+  </div>
+</body>
+</html>
