@@ -10,6 +10,12 @@ THREE.ViveController = function ( id ) {
 	var scope = this;
 	var gamepad;// 手柄
 
+	//              Top: Y = -1
+    //                     ↑
+    //    Left: X = -1 ←─┼─→ Right: X = +1
+    //                     ↓
+    //           Bottom: Y = +1
+
 	var axes = [ 0, 0 ];
 	var thumbpadIsPressed = false; // 圆盘
 	var triggerIsPressed = false; // 射击
