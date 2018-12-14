@@ -43,6 +43,7 @@
             var ballAlpha;
             var ballBeta;
 
+            var activeBall = null;
 
             var group;
 
@@ -100,7 +101,7 @@
 				group = new THREE.Group();
 				group.add(floor);
 				group.add(table);
-				scene.add(group)
+				scene.add(group);
 				scene.add( new THREE.GridHelper( 20, 40, 0x111111, 0x111111 ) );
 
 				scene.add( new THREE.HemisphereLight( 0x888877, 0x777788 ) );
@@ -110,12 +111,13 @@
 
 				ballGroup = new THREE.Group();
 
-				let gemBall = new THREE.SphereGeometry(.2,32,32);
+				let gemBall = new THREE.SphereGeometry(.05,32,32);
 				let matBall = new THREE.MeshBasicMaterial({
 					color:0xf1f1f1
 				})
 				ballAlpha = new THREE.Mesh(gemBall,matBall);
 				ballAlpha.position.x = 0.5;
+				activeBall = ballAlpha;
 				ballGroup.add(ballAlpha);
 
 				ballBeta = new THREE.Mesh(gemBall.clone(),matBall.clone());
@@ -258,6 +260,7 @@
 				if(controller.userData.name === 'controller1')
 				{
 
+					    let catchPos = new THREE.Vector3(0,0,0);
                         // 射线源点 与方向
                         let oriRayLinePos = controller1.userData.points[0];
                         let oriRayLineDir = new THREE.Vector3(
@@ -268,7 +271,7 @@
 
                         // 射线
                         let raycaster = new THREE.Raycaster();
-                        // 射线源坐标 和方向
+
                         raycaster.set(oriRayLinePos,oriRayLineDir);
 
                         // 交点对象组
@@ -276,19 +279,20 @@
 
                         if(intersects.length>0)
                         {
-
                             testGem1.position.set(
                                 intersects[0].point.x,
                                 intersects[0].point.y,
                                 intersects[0].point.z,
                             );
-                               testGem1.material.color.copy(controller.getColor());
-
+							testGem1.material.color.copy(controller.getColor());
+							catchPos.copy(intersects[0].point);
                         }
 
 					// trigger
                     if ( controller.getButtonState( 'trigger' ) ) {
 						controller.userData.triggerIsPressed = true;
+
+						activeBall.position.set(catchPos.x,catchPos.y,catchPos.z);
 
 
                     }else{
@@ -299,7 +303,26 @@
 
                 }
                 //手柄2
+				if(controller.userData.name ==='controller2'){
 
+
+                    if ( controller.getButtonState( 'trigger' ) ) {
+                        controller.userData.triggerIsPressed = true;
+
+                        activeBall.position.set(
+                            controller2.userData.points[0].x,
+                            controller2.userData.points[0].y,
+                            controller2.userData.points[0].z
+						);
+						activeBall.material.color.copy(controller2.getColor());
+                        activeBall.scale.setScalar( controller2.getSize() );
+
+                    }else{
+                        controller.userData.triggerIsPressed = false;
+
+                    }
+
+				}
 
 			}
 
