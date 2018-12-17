@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>three.js webvr - htc vive - paint</title>
+		<title>three.js webvr - htc vive - ball</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 		<style>
@@ -116,7 +116,7 @@
 				renderer.setSize( window.innerWidth, window.innerHeight );
 				renderer.gammaInput = true;
 				renderer.gammaOutput = true;
-				renderer.shadowMap.enabled = true;
+
 				renderer.vr.enabled = true;
 				container.appendChild( renderer.domElement );
 
@@ -260,7 +260,7 @@
 					    }
                 	}
               		  //手柄2
-			 if(controller.userData.name ==='controller2'){
+				 if(controller.userData.name ==='controller2'){
                   	  if ( controller.getButtonState( 'trigger' ) ) {
                     	    controller.userData.triggerIsPressed = true;
                         activeBall.position.set(
@@ -268,7 +268,7 @@
                             controller2.userData.points[0].y,
                             controller2.userData.points[0].z
 						);
-			activeBall.material.color.copy(controller2.getColor());
+						activeBall.material.color.copy(controller2.getColor());
                         activeBall.scale.setScalar( controller2.getSize() );
 
                     }else{
