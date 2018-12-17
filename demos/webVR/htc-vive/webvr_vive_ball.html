@@ -33,16 +33,16 @@
 			var camera, scene, renderer;
 			var controller1, controller2;
 			var up = new THREE.Vector3( 0, 1, 0 );
-            var table;
-            var testGem1;
-            var testGem2;
-            var ballAlpha;
-            var ballBeta;
-            var activeBall = null;
-            var group;
-            var ballGroup;
+		        var table;
+		        var testGem1;
+		        var testGem2;
+		        var ballAlpha;
+		        var ballBeta;
+		        var activeBall = null;
+		        var group;
+		        var ballGroup;
 
-            init();
+          		init();
 			animate();
 			function init() {
 				container = document.createElement( 'div' );
@@ -57,22 +57,21 @@
 				} );
 
 				// test Geo
-                let geometry1 = new THREE.BoxBufferGeometry( .1, .1, .01 );
-                let material1 = new THREE.MeshBasicMaterial( {
-                    color: 0x00ff00,
-                    side:THREE.DoubleSide
-                } );
+              			let geometry1 = new THREE.BoxBufferGeometry( .1, .1, .01 );
+             			let material1 = new THREE.MeshBasicMaterial( {
+             		        color: 0x00ff00,
+                    		side:THREE.DoubleSide
+               			 } );
 				testGem1 = new THREE.Mesh(geometry1,material1);
-                scene.add(testGem1);
+                		scene.add(testGem1);
 
-                let geometry2 = new THREE.BoxBufferGeometry( .05, .05, .05 );
-                let material2 = new THREE.MeshBasicMaterial( {
-                    color: 0xff00ff,
-                    side:THREE.DoubleSide
-                } );
+              		        let geometry2 = new THREE.BoxBufferGeometry( .05, .05, .05 );
+               			let material2 = new THREE.MeshBasicMaterial( {
+			        color: 0xff00ff,
+			        side:THREE.DoubleSide
+				} );
 				testGem2 = new THREE.Mesh(geometry2,material2);
-
-                scene.add(testGem2);
+             		        scene.add(testGem2);
 
 				table = new THREE.Mesh( geometry, material );
 
@@ -129,21 +128,21 @@
 				controller1.standingMatrix = renderer.vr.getStandingMatrix();
 				controller1.userData.points = [ new THREE.Vector3(), new THREE.Vector3() ];
 				controller1.userData.matrices = [ new THREE.Matrix4(), new THREE.Matrix4() ];
-                controller1.userData.pointsBeta = [ new THREE.Vector3(), new THREE.Vector3() ];
-                controller1.userData.matricesBeta = [ new THREE.Matrix4(), new THREE.Matrix4() ];
+              			controller1.userData.pointsBeta = [ new THREE.Vector3(), new THREE.Vector3() ];
+             			controller1.userData.matricesBeta = [ new THREE.Matrix4(), new THREE.Matrix4() ];
 
-                controller1.userData.name = 'controller1';
-                controller1.userData.triggerIsPressed =false;
+           			controller1.userData.name = 'controller1';
+           			controller1.userData.triggerIsPressed =false;
 				scene.add(controller1 );
 
 				controller2 = new THREE.PaintViveController( 1 );
 				controller2.standingMatrix = renderer.vr.getStandingMatrix();
-                controller2.userData.points = [ new THREE.Vector3(), new THREE.Vector3() ];
-                controller2.userData.matrices= [ new THREE.Matrix4(), new THREE.Matrix4() ];
+				controller2.userData.points = [ new THREE.Vector3(), new THREE.Vector3() ];
+				controller2.userData.matrices= [ new THREE.Matrix4(), new THREE.Matrix4() ];
 				controller2.userData.pointsBeta = [ new THREE.Vector3(), new THREE.Vector3() ];
 				controller2.userData.matricesBeta = [ new THREE.Matrix4(), new THREE.Matrix4() ];
-                controller2.userData.name = 'controller2';
-                controller2.userData.triggerIsPressed =false;
+				controller2.userData.name = 'controller2';
+				controller2.userData.triggerIsPressed =false;
 				scene.add( controller2 );
 
 				var loader = new THREE.OBJLoader();
@@ -162,7 +161,7 @@
 					// var pivot = new THREE.Group();
 					// var pivot = new THREE.Mesh( new THREE.BoxBufferGeometry( 0.01, 0.01, 0.01 ) );
 					var pivot = new THREE.Mesh( new THREE.IcosahedronBufferGeometry( 0.01, 2 ) );
-                    var pivot2 = new THREE.Mesh( new THREE.IcosahedronBufferGeometry( 0.001, 2 ) );
+              			       var pivot2 = new THREE.Mesh( new THREE.IcosahedronBufferGeometry( 0.001, 2 ) );
 					pivot.name = 'pivot';
 					pivot2.name = 'pivot2'
 					pivot.position.y = - 0.016;
@@ -170,7 +169,7 @@
 					pivot.rotation.x = Math.PI / 5.5;
 					controller.add(pivot);
 					controller.add(pivot2);
-                    controller1.add( controller.clone() );
+              			        controller1.add( controller.clone() );
 					pivot.material = pivot.material.clone();
 					controller2.add( controller.clone());
 
@@ -195,7 +194,7 @@
 			function handleController( controller ) {
 				controller.update();
 				var pivot = controller.getObjectByName( 'pivot' );
-                var pivot2 = controller.getObjectByName( 'pivot2' );
+            		        var pivot2 = controller.getObjectByName( 'pivot2' );
 				if ( pivot ) {
 					pivot.material.color.copy( controller.getColor() );
 					pivot.scale.setScalar( controller.getSize() );
@@ -207,18 +206,18 @@
 					point1.setFromMatrixPosition( matrix );
 					matrix1.lookAt( point2, point1, up );
 
-                    var matrixBeta = pivot2.matrixWorld;
-                    var point1Beta = controller.userData.pointsBeta[ 0 ];
-                    var point2Beta = controller.userData.pointsBeta[ 1 ];
-                    var matrix1Beta = controller.userData.matricesBeta[ 0 ];
-                    var matrix2Beta = controller.userData.matricesBeta[ 1 ];
-                    point1Beta.setFromMatrixPosition( matrixBeta );
-                    matrix1Beta.lookAt( point2Beta, point1Beta, up );
+				        var matrixBeta = pivot2.matrixWorld;
+				        var point1Beta = controller.userData.pointsBeta[ 0 ];
+				        var point2Beta = controller.userData.pointsBeta[ 1 ];
+				        var matrix1Beta = controller.userData.matricesBeta[ 0 ];
+				        var matrix2Beta = controller.userData.matricesBeta[ 1 ];
+				        point1Beta.setFromMatrixPosition( matrixBeta );
+				        matrix1Beta.lookAt( point2Beta, point1Beta, up );
 					point2.copy( point1 );
 					matrix2.copy( matrix1 );
-                    point2Beta.copy( point1Beta );
-                    matrix2Beta.copy( matrix1Beta );
-				}
+			   	        point2Beta.copy( point1Beta );
+				        matrix2Beta.copy( matrix1Beta );
+						}
 
 				// 手柄1
 				if(controller.userData.name === 'controller1')
@@ -253,24 +252,23 @@
 					}
 
 					// trigger
-                    if ( controller.getButtonState( 'trigger' ) ) {
-						controller.userData.triggerIsPressed = true;
-						activeBall.position.set(catchPos.x,catchPos.y,catchPos.z);
-                    }else{
-                        controller.userData.triggerIsPressed = false;
-                    }
-                }
-                //手柄2
-				if(controller.userData.name ==='controller2'){
-                    if ( controller.getButtonState( 'trigger' ) ) {
-                        controller.userData.triggerIsPressed = true;
-
+			        	    if ( controller.getButtonState( 'trigger' ) ) {
+						 	controller.userData.triggerIsPressed = true;
+							activeBall.position.set(catchPos.x,catchPos.y,catchPos.z);
+					    }else{
+						controller.userData.triggerIsPressed = false;
+					    }
+                	}
+              		  //手柄2
+			 if(controller.userData.name ==='controller2'){
+                  	  if ( controller.getButtonState( 'trigger' ) ) {
+                    	    controller.userData.triggerIsPressed = true;
                         activeBall.position.set(
                             controller2.userData.points[0].x,
                             controller2.userData.points[0].y,
                             controller2.userData.points[0].z
 						);
-						activeBall.material.color.copy(controller2.getColor());
+			activeBall.material.color.copy(controller2.getColor());
                         activeBall.scale.setScalar( controller2.getSize() );
 
                     }else{
@@ -278,10 +276,8 @@
 
                     }
 
-				}
-
-			}
-
+		}
+	}
 			function animate() {
 				renderer.setAnimationLoop( render );
 			}
