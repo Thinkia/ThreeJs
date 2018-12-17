@@ -32,36 +32,23 @@
 			var container;
 			var camera, scene, renderer;
 			var controller1, controller2;
-
 			var up = new THREE.Vector3( 0, 1, 0 );
-
-
             var table;
             var testGem1;
             var testGem2;
-
             var ballAlpha;
             var ballBeta;
-
             var activeBall = null;
-
             var group;
-
             var ballGroup;
 
             init();
-
 			animate();
-
 			function init() {
-
 				container = document.createElement( 'div' );
 				document.body.appendChild( container );
-
 				scene = new THREE.Scene();
-
 				camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.01, 50 );
-
 				let geometry = new THREE.BoxBufferGeometry( 4, 4, 4 );
 				let material = new THREE.MeshBasicMaterial( {
 					color: 0x880000,
@@ -83,7 +70,7 @@
                     color: 0xff00ff,
                     side:THREE.DoubleSide
                 } );
-                 testGem2 = new THREE.Mesh(geometry2,material2);
+				testGem2 = new THREE.Mesh(geometry2,material2);
 
                 scene.add(testGem2);
 
@@ -106,11 +93,8 @@
 
 				scene.add( new THREE.HemisphereLight( 0x888877, 0x777788 ) );
 
-
 				// Ball Group
-
 				ballGroup = new THREE.Group();
-
 				let gemBall = new THREE.SphereGeometry(.05,32,32);
 				let matBall = new THREE.MeshBasicMaterial({
 					color:0xf1f1f1
@@ -184,19 +168,14 @@
 					pivot.position.y = - 0.016;
 					pivot.position.z = - 0.043;
 					pivot.rotation.x = Math.PI / 5.5;
-
 					controller.add(pivot);
 					controller.add(pivot2);
-
                     controller1.add( controller.clone() );
-
 					pivot.material = pivot.material.clone();
 					controller2.add( controller.clone());
 
 				} );
-
 				//
-
 				window.addEventListener( 'resize', onWindowResize, false );
 
 			}
@@ -206,52 +185,37 @@
 
 
 			function onWindowResize() {
-
 				camera.aspect = window.innerWidth / window.innerHeight;
 				camera.updateProjectionMatrix();
-
 				renderer.setSize( window.innerWidth, window.innerHeight );
-
 			}
 
 			// 手柄操作事件  空间坐标换算
 
 			function handleController( controller ) {
-
 				controller.update();
-
 				var pivot = controller.getObjectByName( 'pivot' );
                 var pivot2 = controller.getObjectByName( 'pivot2' );
 				if ( pivot ) {
-
 					pivot.material.color.copy( controller.getColor() );
 					pivot.scale.setScalar( controller.getSize() );
-
 					var matrix = pivot.matrixWorld;
-
 					var point1 = controller.userData.points[ 0 ];
 					var point2 = controller.userData.points[ 1 ];
-
 					var matrix1 = controller.userData.matrices[ 0 ];
 					var matrix2 = controller.userData.matrices[ 1 ];
-
 					point1.setFromMatrixPosition( matrix );
 					matrix1.lookAt( point2, point1, up );
 
                     var matrixBeta = pivot2.matrixWorld;
-
                     var point1Beta = controller.userData.pointsBeta[ 0 ];
                     var point2Beta = controller.userData.pointsBeta[ 1 ];
-
                     var matrix1Beta = controller.userData.matricesBeta[ 0 ];
                     var matrix2Beta = controller.userData.matricesBeta[ 1 ];
-
                     point1Beta.setFromMatrixPosition( matrixBeta );
                     matrix1Beta.lookAt( point2Beta, point1Beta, up );
-
 					point2.copy( point1 );
 					matrix2.copy( matrix1 );
-
                     point2Beta.copy( point1Beta );
                     matrix2Beta.copy( matrix1Beta );
 				}
@@ -260,52 +224,44 @@
 				if(controller.userData.name === 'controller1')
 				{
 
-					    let catchPos = new THREE.Vector3(0,0,0);
-                        // 射线源点 与方向
-                        let oriRayLinePos = controller1.userData.points[0];
-                        let oriRayLineDir = new THREE.Vector3(
-                            controller1.userData.points[0].x-controller1.userData.pointsBeta[0].x,
-                            controller1.userData.points[0].y-controller1.userData.pointsBeta[0].y,
-                            controller1.userData.points[0].z-controller1.userData.pointsBeta[0].z,
+					let catchPos = new THREE.Vector3(0,0,0);
+					// 射线源点 与方向
+					let oriRayLinePos = controller1.userData.points[0];
+					let oriRayLineDir = new THREE.Vector3(
+						controller1.userData.points[0].x-controller1.userData.pointsBeta[0].x,
+						controller1.userData.points[0].y-controller1.userData.pointsBeta[0].y,
+						controller1.userData.points[0].z-controller1.userData.pointsBeta[0].z,
                         );
 
-                        // 射线
-                        let raycaster = new THREE.Raycaster();
+					// 射线
+					let raycaster = new THREE.Raycaster();
 
-                        raycaster.set(oriRayLinePos,oriRayLineDir);
+					raycaster.set(oriRayLinePos,oriRayLineDir);
 
-                        // 交点对象组
-                        let intersects = raycaster.intersectObjects(group.children,true);
+					// 交点对象组
+					let intersects = raycaster.intersectObjects(group.children,true);
 
-                        if(intersects.length>0)
-                        {
-                            testGem1.position.set(
-                                intersects[0].point.x,
-                                intersects[0].point.y,
-                                intersects[0].point.z,
-                            );
-							testGem1.material.color.copy(controller.getColor());
-							catchPos.copy(intersects[0].point);
-                        }
+					if(intersects.length>0)
+					{
+						testGem1.position.set(
+							intersects[0].point.x,
+							intersects[0].point.y,
+							intersects[0].point.z,
+						);
+						testGem1.material.color.copy(controller.getColor());
+						catchPos.copy(intersects[0].point);
+					}
 
 					// trigger
                     if ( controller.getButtonState( 'trigger' ) ) {
 						controller.userData.triggerIsPressed = true;
-
 						activeBall.position.set(catchPos.x,catchPos.y,catchPos.z);
-
-
                     }else{
                         controller.userData.triggerIsPressed = false;
-
                     }
-
-
                 }
                 //手柄2
 				if(controller.userData.name ==='controller2'){
-
-
                     if ( controller.getButtonState( 'trigger' ) ) {
                         controller.userData.triggerIsPressed = true;
 
@@ -334,9 +290,7 @@
 				handleController( controller1 );
 				handleController( controller2 );
 				renderer.render( scene, camera );
-
 			}
-
 		</script>
 	</body>
 </html>
