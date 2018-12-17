@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="be04385c-e8be-48d0-a96e-7134e17d73d6" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/demos/webVR/htc-vive/webvr_vive_ball.html" beforeDir="false" afterPath="$PROJECT_DIR$/demos/webVR/htc-vive/webvr_vive_ball.html" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -34,7 +33,7 @@
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="HTML" value="455" />
+          <entry key="HTML" value="463" />
           <entry key="JavaScript" value="23" />
           <entry key="PLAIN_TEXT" value="259" />
         </counts>
@@ -46,8 +45,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/demos/webVR/htc-vive/webvr_vive_ball.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="381">
-              <caret line="153" column="43" selection-start-line="153" selection-start-column="43" selection-end-line="153" selection-end-column="43" />
+            <state relative-caret-position="75">
+              <caret line="3" column="47" selection-start-line="3" selection-start-column="47" selection-end-line="3" selection-end-column="47" />
             </state>
           </provider>
         </entry>
@@ -128,67 +127,6 @@
               <item name="ThreeJs" type="b2602c69:ProjectViewProjectNode" />
               <item name="ThreeJs" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="ThreeJs" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ThreeJs" type="462c0819:PsiDirectoryNode" />
-              <item name="demos" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ThreeJs" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ThreeJs" type="462c0819:PsiDirectoryNode" />
-              <item name="demos" type="462c0819:PsiDirectoryNode" />
-              <item name="models" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ThreeJs" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ThreeJs" type="462c0819:PsiDirectoryNode" />
-              <item name="demos" type="462c0819:PsiDirectoryNode" />
-              <item name="models" type="462c0819:PsiDirectoryNode" />
-              <item name="obj" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ThreeJs" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ThreeJs" type="462c0819:PsiDirectoryNode" />
-              <item name="demos" type="462c0819:PsiDirectoryNode" />
-              <item name="models" type="462c0819:PsiDirectoryNode" />
-              <item name="obj" type="462c0819:PsiDirectoryNode" />
-              <item name="vive-controller" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ThreeJs" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ThreeJs" type="462c0819:PsiDirectoryNode" />
-              <item name="demos" type="462c0819:PsiDirectoryNode" />
-              <item name="webVR" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ThreeJs" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ThreeJs" type="462c0819:PsiDirectoryNode" />
-              <item name="demos" type="462c0819:PsiDirectoryNode" />
-              <item name="webVR" type="462c0819:PsiDirectoryNode" />
-              <item name="htc-vive" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ThreeJs" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ThreeJs" type="462c0819:PsiDirectoryNode" />
-              <item name="demos" type="462c0819:PsiDirectoryNode" />
-              <item name="webVR" type="462c0819:PsiDirectoryNode" />
-              <item name="htc-vive" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ThreeJs" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ThreeJs" type="462c0819:PsiDirectoryNode" />
-              <item name="demos" type="462c0819:PsiDirectoryNode" />
-              <item name="webVR" type="462c0819:PsiDirectoryNode" />
-              <item name="htc-vive" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
-              <item name="vr" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ThreeJs" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ThreeJs" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -244,12 +182,12 @@
       <updated>1544769286692</updated>
       <workItem from="1544769287826" duration="9695000" />
       <workItem from="1545016848286" duration="882000" />
-      <workItem from="1545025745892" duration="80000" />
+      <workItem from="1545025745892" duration="3724000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="10657000" />
+    <option name="totallyTimeSpent" value="14301000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -264,7 +202,7 @@
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20179136" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20179136" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -276,7 +214,7 @@
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32975295" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="9" visible="true" weight="0.0" />
+      <window_info anchor="bottom" id="Terminal" order="9" visible="true" weight="0.05907626" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -292,8 +230,8 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/demos/webVR/htc-vive/webvr_vive_ball.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="381">
-          <caret line="153" column="43" selection-start-line="153" selection-start-column="43" selection-end-line="153" selection-end-column="43" />
+        <state relative-caret-position="75">
+          <caret line="3" column="47" selection-start-line="3" selection-start-column="47" selection-end-line="3" selection-end-column="47" />
         </state>
       </provider>
     </entry>
