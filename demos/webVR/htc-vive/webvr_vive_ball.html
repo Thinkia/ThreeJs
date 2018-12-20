@@ -49,12 +49,14 @@
 				document.body.appendChild( container );
 				scene = new THREE.Scene();
 				camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.01, 50 );
+
 				let geometry = new THREE.BoxBufferGeometry( 4, 4, 4 );
 				let material = new THREE.MeshBasicMaterial( {
 					color: 0x880000,
 					side:THREE.DoubleSide,
 					opacity:0.3
-				} );
+					}
+				);
 
 				// test Geo
               			let geometry1 = new THREE.BoxBufferGeometry( .1, .1, .01 );
@@ -128,7 +130,8 @@
 				controller1.standingMatrix = renderer.vr.getStandingMatrix();
 				controller1.userData.points = [ new THREE.Vector3(), new THREE.Vector3() ];
 				controller1.userData.matrices = [ new THREE.Matrix4(), new THREE.Matrix4() ];
-              			controller1.userData.pointsBeta = [ new THREE.Vector3(), new THREE.Vector3() ];
+              			controller1.userData.pointsBeta = [ new THREE.Vector3(), new THREE.Vector3()
+						];
              			controller1.userData.matricesBeta = [ new THREE.Matrix4(), new THREE.Matrix4() ];
 
            			controller1.userData.name = 'controller1';
@@ -160,17 +163,33 @@
 
 					// var pivot = new THREE.Group();
 					// var pivot = new THREE.Mesh( new THREE.BoxBufferGeometry( 0.01, 0.01, 0.01 ) );
-					var pivot = new THREE.Mesh( new THREE.IcosahedronBufferGeometry( 0.01, 2 ) );
-              			       var pivot2 = new THREE.Mesh( new THREE.IcosahedronBufferGeometry( 0.001, 2 ) );
-					pivot.name = 'pivot';
-					pivot2.name = 'pivot2'
-					pivot.position.y = - 0.016;
-					pivot.position.z = - 0.043;
-					pivot.rotation.x = Math.PI / 5.5;
+					var pivot = new THREE.Mesh( new THREE.IcosahedronBufferGeometry( 0.001, 2 ) );
+                    pivot.name = 'pivot';
+                    pivot.position.z = -0.043;
+                    var pivot2 = new THREE.Mesh( new THREE.IcosahedronBufferGeometry( 0.001, 2 ) );
+                    pivot2.name = 'pivot2';
+
+
+					//pivot.position.y = - 0.016;
+
+					//	pivot.rotation.x = Math.PI / 5.5;
+
+					let length = 10;
+
+					let geo = new THREE.CylinderGeometry(0.003,0.001,length,32);
+					let mat = new THREE.MeshBasicMaterial({color:0xff0000});
+					let pivot3 = new THREE.Mesh(geo,mat);
+					pivot3.rotation.x = Math.PI/2;
+					pivot3.position.z = -length/2;
+
+                    pivot3.name = 'pivot3';
 					controller.add(pivot);
 					controller.add(pivot2);
+                    controller.add(pivot3);
+
               			        controller1.add( controller.clone() );
 					pivot.material = pivot.material.clone();
+                    pivot3.material = pivot3.material.clone();
 					controller2.add( controller.clone());
 
 				} );
@@ -192,12 +211,17 @@
 			// 手柄操作事件  空间坐标换算
 
 			function handleController( controller ) {
+
+
 				controller.update();
 				var pivot = controller.getObjectByName( 'pivot' );
             		        var pivot2 = controller.getObjectByName( 'pivot2' );
+            		        var pivot3 = controller.getObjectByName('pivot3')
 				if ( pivot ) {
 					pivot.material.color.copy( controller.getColor() );
 					pivot.scale.setScalar( controller.getSize() );
+					pivot3.material.color.copy(controller.getColor());
+
 					var matrix = pivot.matrixWorld;
 					var point1 = controller.userData.points[ 0 ];
 					var point2 = controller.userData.points[ 1 ];
@@ -213,6 +237,10 @@
 				        var matrix2Beta = controller.userData.matricesBeta[ 1 ];
 				        point1Beta.setFromMatrixPosition( matrixBeta );
 				        matrix1Beta.lookAt( point2Beta, point1Beta, up );
+
+
+
+
 					point2.copy( point1 );
 					matrix2.copy( matrix1 );
 			   	        point2Beta.copy( point1Beta );
@@ -226,7 +254,7 @@
 					let catchPos = new THREE.Vector3(0,0,0);
 					// 射线源点 与方向
 					let oriRayLinePos = controller1.userData.points[0];
-					let oriRayLineDir = new THREE.Vector3(
+					let oriRayLineDir =  new THREE.Vector3(
 						controller1.userData.points[0].x-controller1.userData.pointsBeta[0].x,
 						controller1.userData.points[0].y-controller1.userData.pointsBeta[0].y,
 						controller1.userData.points[0].z-controller1.userData.pointsBeta[0].z,
