@@ -62,10 +62,11 @@ base: https://discourse.threejs.org/t/creating-a-dynamic-run-walk-animation/442/
                 var mixer;
                 var throwAction;
                 var set = false;
-                var idleAction
+                var idleAction;
+                var skinnedMesh;
                 loader.load("./models/blender/skeletal/test/player.json", function(geometry) {
                     var material = new THREE.MeshBasicMaterial({skinning: true});
-                    var skinnedMesh = new THREE.SkinnedMesh(geometry, material);
+					skinnedMesh = new THREE.SkinnedMesh(geometry, material);
                     scene.add(skinnedMesh);
 
                     mixer = new THREE.AnimationMixer(skinnedMesh);
@@ -101,6 +102,8 @@ base: https://discourse.threejs.org/t/creating-a-dynamic-run-walk-animation/442/
                 function render() {
                     if(set) {
                         mixer.update(clock.getDelta());
+                        console.log(skinnedMesh.position);
+                        //skinnedMesh.position.z+=0.01;
                     }
 
                     renderer.render(scene, camera);
