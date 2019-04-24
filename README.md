@@ -13,8 +13,7 @@
 <br>4.Emil Persson:      http://www.humus.name/
 <br>
 <br>
-<br>
-<br>个人简历网站:      https://thinkia.github.io/Thinkio/ 
+<br
 <br>
 <br>
 <br>
