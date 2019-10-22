@@ -14860,7 +14860,7 @@
 		this.map = null;
 
 		this.lightMap = null;
-		
+
 		this.lightMapIntensity = 1.0;
 
 		this.aoMap = null;
@@ -20360,11 +20360,11 @@
 
 		this.near = near !== undefined ? near : 0.1;
 		this.far = far !== undefined ? far : 2000;
-		
+
 		this.focus = 10;   /* 焦点*/
 
 		this.aspect = aspect !== undefined ? aspect : 1;
-		
+
 		this.view = null;
 
 		this.filmGauge = 35;	// width of the film (default in millimeters)
@@ -22176,7 +22176,7 @@
 			if ( isAnimating ) return;
 
 			var device = vr.getDevice();
-			
+
 			if ( device && device.isPresenting ) {
 
 				device.requestAnimationFrame( loop );
@@ -22196,7 +22196,7 @@
 			if ( onAnimationFrame !== null ) onAnimationFrame( time );
 
 			var device = vr.getDevice();
-			
+
 			if ( device && device.isPresenting ) {
 
 				device.requestAnimationFrame( loop );
@@ -39061,22 +39061,24 @@
 	 *
 	 */
 
-	function AnimationAction( mixer, clip, localRoot ) {
+	function AnimationAction( mixer, clip, localRoot,startTracks=0 ,endTracks=clip.tracks.length ) {
 
 		this._mixer = mixer;
 		this._clip = clip;
 		this._localRoot = localRoot || null;
 
+		this.oTracks = startTracks;
+		this.nTracks = endTracks;
+
 		var tracks = clip.tracks,
-			nTracks = tracks.length,
-			interpolants = new Array( nTracks );
+			interpolants = new Array( this.nTracks );
 
 		var interpolantSettings = {
 			endingStart: ZeroCurvatureEnding,
 			endingEnd: ZeroCurvatureEnding
 		};
 
-		for ( var i = 0; i !== nTracks; ++ i ) {
+		for ( var i = this.oTracks; i !== this.nTracks; ++ i ) {
 
 			var interpolant = tracks[ i ].createInterpolant( null );
 			interpolants[ i ] = interpolant;
@@ -39089,7 +39091,7 @@
 		this._interpolants = interpolants;	// bound by the mixer
 
 		// inside: PropertyMixer (managed by the mixer)
-		this._propertyBindings = new Array( nTracks );
+		this._propertyBindings = new Array( this.nTracks );
 
 		this._cacheIndex = null;			// for the memory manager
 		this._byClipCacheIndex = null;		// for the memory manager
@@ -39424,7 +39426,7 @@
 				var interpolants = this._interpolants;
 				var propertyMixers = this._propertyBindings;
 
-				for ( var j = 0, m = interpolants.length; j !== m; ++ j ) {
+				for ( var j = this.oTracks, m = this.nTracks; j !== m; ++ j ) {
 
 					interpolants[ j ].evaluate( clipTime );
 					propertyMixers[ j ].accumulate( accuIndex, weight );
@@ -39742,7 +39744,8 @@
 
 			var root = action._localRoot || this._root,
 				tracks = action._clip.tracks,
-				nTracks = tracks.length,
+        oTracks = action.oTracks,
+				nTracks = action.nTracks,
 				bindings = action._propertyBindings,
 				interpolants = action._interpolants,
 				rootUuid = root.uuid,
@@ -39756,7 +39759,7 @@
 
 			}
 
-			for ( var i = 0; i !== nTracks; ++ i ) {
+			for ( var i = oTracks; i !== nTracks; ++ i ) {
 
 				var track = tracks[ i ],
 					trackName = track.name,
@@ -39828,7 +39831,7 @@
 				var bindings = action._propertyBindings;
 
 				// increment reference counts / sort out state
-				for ( var i = 0, n = bindings.length; i !== n; ++ i ) {
+				for ( var i = action.oTracks, n = action.nTracks; i !== n; ++ i ) {
 
 					var binding = bindings[ i ];
 
@@ -40225,7 +40228,7 @@
 		// return an action for a clip optionally using a custom root target
 		// object (this method allocates a lot of dynamic memory in case a
 		// previously unknown clip/root combination is specified)
-		clipAction: function ( clip, optionalRoot ) {
+		clipAction: function ( clip, optionalRoot ,startTracks,endTracks ) {
 
 			var root = optionalRoot || this._root,
 				rootUuid = root.uuid,
@@ -40263,7 +40266,7 @@
 			if ( clipObject === null ) return null;
 
 			// allocate all resources required to run it
-			var newAction = new AnimationAction( this, clipObject, optionalRoot );
+			var newAction = new AnimationAction( this, clipObject, optionalRoot,startTracks,endTracks);
 
 			this._bindAction( newAction, prototypeAction );
 
